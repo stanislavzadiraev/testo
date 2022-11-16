@@ -3,7 +3,7 @@ import css from './default.css.js'
 const isPrimitive = val =>
   !(typeof val == "object" || typeof val == "function")
 
-export default (data, path, back) => `
+export default (name, data, paths) => `
 <!DOCTYPE html>
 
 <head>
@@ -16,30 +16,26 @@ export default (data, path, back) => `
 <body>
     <div class="center">
         <h1><a href="/">the Lib</a></h1>
+        </br>
         <div><h2>${
-          path
+          paths.get(name)
           .slice(+1,-1)
           .split('/')
-          .map((item, numb, base) =>
-            `<a href="${
-              '/' +
-              (numb &&
-              (base[numb - 1] + '/' + item) ||
-              item) + '/'
-            }">${item}</a>`
+          .map(name =>
+            `<a href="${paths.get(name)}">${name}</a>`
           )
           .join(' > ')
         }</h2></div>
+        </br>
         <div>${
           Object.entries(data)
             .map(([name, data]) => [
-              name, data, isPrimitive(data) && back.get(data)
+              name, data, paths.get(name), paths.get(data)
             ])
-            .map(([name, data, link]) =>
-              link && `<p><a href="${link}">${name}: ${data}</a></p>` ||
-              isPrimitive(data) && `<p>${name}: ${data}</p>` ||
-              `<p><a href="${path + name}/">${name}</a></p>`
-
+            .map(([name, data, linkname, linkdata]) =>
+              linkname && `<p><a href="${linkname}">${name}</a></p>` ||
+              linkdata && `<p>${name}: <a href="${linkdata}">${data}</a></p>` ||
+              `<p>${name}: ${data}</p>`
             )
             .join('')
         }</div>

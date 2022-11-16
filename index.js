@@ -16,7 +16,7 @@ const reduce = (name, data, pool, poolfunc, meta, metafunc) => (
   pool
 )
 
-const back = reduce(
+const PATHS = reduce(
   '',
   data,
   new Map,
@@ -27,32 +27,20 @@ const back = reduce(
     meta + name + '/'
 )
 
-const routes = reduce(
+console.log(PATHS)
+
+const RENDERS = reduce(
   '',
   data,
   new Map,
   (name, data, pool, meta) =>
-    pool.set(meta, render(data, meta, back)),
+    pool.set(meta, render(name, data, PATHS)),
   '',
   (name, data, pool, meta) =>
     meta + name + '/',
 )
 
-console.log(reduce(
-  '',
-  data,
-   0,
-  (name, data, pool, meta) =>
-    ++pool,
-  undefined,
-  (name, data, pool, meta) => (
-    console.log(`'${name}'`),
-    name
-  )
-))
-
-
-server(routes)
+server(RENDERS)
 .listen(
   {host:'127.0.0.1', port: 8000}
 )
