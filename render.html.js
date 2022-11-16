@@ -3,7 +3,7 @@ import css from './default.css.js'
 const isPrimitive = val =>
   !(typeof val == "object" || typeof val == "function")
 
-export default (data, path) => `
+export default (data, path, back) => `
 <!DOCTYPE html>
 
 <head>
@@ -16,7 +16,7 @@ export default (data, path) => `
 <body>
     <div class="center">
         <h1><a href="/">the Lib</a></h1>
-        <h2>${
+        <div><h2>${
           path
           .slice(+1,-1)
           .split('/')
@@ -29,16 +29,20 @@ export default (data, path) => `
             }">${item}</a>`
           )
           .join(' > ')
-        }</h2>
-        ${
+        }</h2></div>
+        <div>${
           Object.entries(data)
-            .map(([meta, data]) =>
-              isPrimitive(data) &&
-              `<p>${meta}: ${data}</p>` ||
-              `<p><a href="${path + meta + '/'}">${meta}</a></p>`
+            .map(([name, data]) => [
+              name, data, isPrimitive(data) && back.get(data)
+            ])
+            .map(([name, data, link]) =>
+              link && `<p><a href="${link}">${name}: ${data}</a></p>` ||
+              isPrimitive(data) && `<p>${name}: ${data}</p>` ||
+              `<p><a href="${path + name}/">${name}</a></p>`
+
             )
             .join('')
-        }
+        }</div>
     </div>
 </body>
 
