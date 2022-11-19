@@ -1,17 +1,13 @@
 import http from 'http'
 
 export default routes =>
-  http.createServer(
+  http
+  .createServer()
+  .on(
+    'request',
     (req, res) =>
       (
-        res.setHeader("Content-Type", "text/html"),
-        res.writeHead(200),
-        res.end(
-          routes.get(decodeURI(req.url))
-        )
-      ) ||
-      (
-        res.writeHead(400),
-        res.end("Data not found")
+        res.writeHead(200, {"Content-Type": "text/html; charset=utf-8"}),
+        res.end(routes.get(decodeURI(req.url)))
       )
   )

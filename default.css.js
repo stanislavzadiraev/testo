@@ -9,26 +9,41 @@ html {
 html {
     width: 100%;
     height: 100%;
+    color: rgb(120 120 120);
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+header {
+    background-color: rgb(20 20 10);
+}
+
+div {
+  padding: 10px;
 }
 
 body {
     width: 100%;
     height: 100%;
     position: relative;
-    background-color: rgb(195 111 0);
+    background-color: rgb(10 10 10);
 }
 
 .center {
-    width: 100%;
-    height: 50%;
-    margin: 0;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    display: grid;
+    justify-content: center;
+    align-items: center;
+}
+
+a
+{
+    text-decoration: none;
+    color: rgb(200 200 200);
+    transition-duration: 400ms;
+}
+
+a:hover {
     color: white;
-    font-family: "Trebuchet MS", Helvetica, sans-serif;
-    text-align: center;
+
 }
 
 h1 {
@@ -36,6 +51,6 @@ h1 {
 }
 
 p {
-    font-size: 24px;
+    font-size: 20px;
 }
 `

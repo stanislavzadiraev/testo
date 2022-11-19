@@ -1,13 +1,12 @@
 import css from './default.css.js'
 
-const isPrimitive = val =>
-  !(typeof val == "object" || typeof val == "function")
+const sitename = 'the Lib'
 
 export default (name, data, paths) => `
 <!DOCTYPE html>
 
 <head>
-    <title>My Website</title>
+    <title>${sitename}</title>
     <style>
       ${css()}
     </style>
@@ -15,29 +14,31 @@ export default (name, data, paths) => `
 
 <body>
     <div class="center">
-        <h1><a href="/">the Lib</a></h1>
-        </br>
+        <div>
+          <h1><a href="/">${sitename}</a></h1>
+        </div>
         <div><h2>${
-          paths.get(name)
+          paths
+          .get(name)
           .slice(+1,-1)
           .split('/')
           .map(name =>
-            `<a href="${paths.get(name)}">${name}</a>`
+            `<a href="${paths.get(name)}">${name ||'all we dot'}</a>`
           )
           .join(' > ')
         }</h2></div>
-        </br>
         <div>${
           Object.entries(data)
             .map(([name, data]) => [
               name, data, paths.get(name), paths.get(data)
             ])
-            .map(([name, data, linkname, linkdata]) =>
-              linkname && `<p><a href="${linkname}">${name}</a></p>` ||
-              linkdata && `<p>${name}: <a href="${linkdata}">${data}</a></p>` ||
+            .map(([name, data, pathname, pathdata]) =>
+              pathname && `<p><a href="${pathname}">${name}</a></p>` ||
+              pathdata && `<p>${name}: <a href="${pathdata}">${data}</a></p>` ||
               `<p>${name}: ${data}</p>`
             )
-            .join('')
+            .join('') ||
+            '<p>no data</p>'
         }</div>
     </div>
 </body>
